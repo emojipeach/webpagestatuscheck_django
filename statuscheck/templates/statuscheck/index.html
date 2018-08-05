@@ -16,7 +16,7 @@
     {% for url in urls %}
         {% if returned_statuses|get_item:url == "200" %}
             <p class="good-url">{{ url }}<br>
-            <font class="good-second-line"><font class="good-color">Status: {{ returned_statuses|get_item:url }}</font>  | Uptime: {{ returned_uptimes|get_item:url|floatformat:2 }}</p></font>
+            <font class="good-second-line"><font class="good-color">Status: {{ returned_statuses|get_item:url }}</font>  | Uptime: {{ returned_uptimes|get_item:url|floatformat:2 }}%</p></font>
         {% endif %}
     {% endfor %}
     
@@ -24,7 +24,7 @@
         {% if returned_statuses|get_item:url == "200" %}
         {% else %}
             <p class="bad-url">{{ url }}<br>
-            <font class="bad-second-line"><font class="bad-color">Status: {{ returned_statuses|get_item:url }}</font> | Uptime: {{ returned_uptimes|get_item:url|floatformat:2 }}</p></font>
+            <font class="bad-second-line"><font class="bad-color">Status: {{ returned_statuses|get_item:url }}</font> | Uptime: {{ returned_uptimes|get_item:url|floatformat:2 }}%</p></font>
         {% endif %}
     {% endfor %}
     
