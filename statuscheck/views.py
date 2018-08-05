@@ -4,6 +4,8 @@ import threading
 import os
 from django.shortcuts import render
 from django.template.defaulttags import register
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from socket import gaierror, gethostbyname
 from multiprocessing.dummy import Pool as ThreadPool
 from urllib.parse import urlparse
@@ -11,6 +13,7 @@ from time import gmtime, strftime
 
 from .settings import refresh_interval, filename, site_down, number_threads, include_search
 from .models import Site
+from .forms import SearchForm
 
 
 @register.filter
@@ -136,7 +139,9 @@ def generate_list_urls(input_dict):
 
 def index(request):
     """The home page for statuscheck"""
+    form = SearchForm()
     context = {
+        'form': form,
         'list_urls': list_urls,
         'last_update_time': last_update_time,
         'returned_statuses': returned_statuses,
@@ -149,15 +154,19 @@ def index(request):
 def result(request):
     """ Django view to return search results."""
     if request.method == 'POST':
-        results = compare_submitted(request.POST['submitted'])
-        context = {
-        'results': results,
-        'last_update_time': last_update_time,
-        'returned_statuses': returned_statuses,
-        'checkurls': checkurls,
-        'include_search': include_search, 'returned_uptimes': returned_uptimes
-        }
-        return render(request, 'statuscheck/index.html', context)
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            results = compare_submitted(form.cleaned_data['submitted'])
+            context = {
+'results': results,
+'last_update_time': last_update_time,
+'returned_statuses': returned_statuses,
+'checkurls': checkurls,
+'include_search': include_search, 'returned_uptimes': returned_uptimes
+}
+            return render(request, 'statuscheck/index.html', context)
+    else:
+        return HttpResponseRedirect(reverse('statuscheck:index'))
 
 ### Get the current directory to open the checkurls.json file
 module_dir = os.path.dirname(__file__)
