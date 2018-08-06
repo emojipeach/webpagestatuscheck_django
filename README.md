@@ -2,7 +2,7 @@
 
 ### Screenshot
 
-![Screenshot](https://postimg.cc/image/hl0hsn7pd/ "Screenshot")
+![Screenshot](https://s8.postimg.cc/68nwauz0l/IMG_0101.png "Screenshot")
 
 Django rewrite of my Flask app by the same name. Works exactly the same but has an added sql db to monitor uptime. Uptime is displayed in the html templates.
 
