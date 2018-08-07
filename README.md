@@ -9,7 +9,3 @@ Django rewrite of my Flask app by the same name. Works exactly the same but has 
 Database ia only read from immediately after statuses are checked. Web page requests load all information from memory rather than reading the db on each request.
 
 User input is now sanitised by django before processing.
-
-
-### Todo:
-* Unittests
